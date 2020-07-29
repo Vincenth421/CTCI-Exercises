@@ -142,18 +142,54 @@ public class Chapter1{
           return true;
      }
 
-     public static void main(String[] args) {
-		String[] strings = {"Rats live on no evil star",
-							"A man, a plan, a canal, panama",
-							"Lleve",
-							"Tacotac",
-							"asda"};
-		for (String s : strings) {
-			System.out.println(s);
-			System.out.println(palPerm(s));
-               System.out.println();
-		}
+     /** Question 5
+     * There are three types of edits that can be performed on strings: insert a character,
+     * remove a character, or replace a character. Given two strings, write a function to check if they are
+     * one edit (or zero edits) away.
+     **/
+     public static boolean oneAway(String str1, String str2)
+     {
+          //edge cases
+          if(Math.abs(str1.length() - str2.length()) > 1) return false;
+          if(str1.equals(str2)) return true;
 
-	}
+          //Tracking variables
+          int si = 0;
+          int li = 0;
+          boolean diff = false;
+          String shorter = "";
+          String longer = "";
+
+          //Set shorter string
+          if(str1.length() <= str2.length())
+          {
+               shorter = str1;
+               longer = str2;
+          } else{
+               shorter = str2;
+               longer = str1;
+          }
+
+          while(si < shorter.length() && li < longer.length())
+          {
+               if(shorter.charAt(si) != longer.charAt(li))
+               {
+                    //if we already found difference, return false. Otherwise, set diff to true.
+                    if(diff) return false;
+                    diff = true;
+
+                    //If both strings same length, increase shorter index
+                    if(shorter.length() == longer.length()) si++;
+               } else {
+                    //if characters match, increase shorter index
+                    si++;
+               }
+
+               //always increase longer index
+               li++;
+          }
+
+          return true;
+     }
 
 }
