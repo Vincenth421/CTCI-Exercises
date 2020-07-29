@@ -104,13 +104,56 @@ public class Chapter1{
      }
 
      /** Question 4
-     *
+     * Given a string, write a function to check if it is a permutation of a palindrome.
+     **/
+     public static boolean palPerm(String str)
+     {
+          //initialize tracking tools
+          int tracker[] = new int[26];
+          int n = 0;
+          boolean seenOdd = false;
+
+          //case doesn't matter
+          str = str.toLowerCase();
+
+          //Go thorugh the string to find number of times characters appear and count number of characters.
+          for(int i = 0; i < str.length(); i++)
+          {
+               if(Character.isLetter(str.charAt(i)))
+               {
+                    int ind = (int) (str.charAt(i) - 'a');
+
+                    tracker[ind]++;
+                    n++;
+               }
+          }
+
+          //Go through our counts
+          for(int i = 0; i < tracker.length; i++)
+          {
+               if(tracker[i] % 2 == 1)
+               {
+                    //if we already saw an odd count or number of letters is even, string is not a palindrome
+                    if(seenOdd || n % 2 == 0) return false;
+                    else seenOdd = true;     //Otherwise say we have seen an odd count letter.
+               }
+          }
+
+          return true;
+     }
 
      public static void main(String[] args) {
-		String str = "H   ";
-		char[] arr = str.toCharArray();
-		URLify(arr, 2);
-		System.out.println(arr);
+		String[] strings = {"Rats live on no evil star",
+							"A man, a plan, a canal, panama",
+							"Lleve",
+							"Tacotac",
+							"asda"};
+		for (String s : strings) {
+			System.out.println(s);
+			System.out.println(palPerm(s));
+               System.out.println();
+		}
+
 	}
 
 }
