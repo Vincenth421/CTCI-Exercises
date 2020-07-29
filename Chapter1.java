@@ -42,22 +42,75 @@ public class Chapter1{
 		return true;
      }
 
-     public static void testOne(){
-		String[] words = {"abcde", "hello", "apple", "kite", "padle"};
-		for (String word : words) {
-			boolean wordA =  Chapter1.isUnique(word);
-			boolean wordB =  Chapter1.isUniqueNoDS(word);
-			if (wordA == wordB) {
-				System.out.println(word + ": " + wordA);
-			} else {
-				System.out.println(word + ": " + wordA + " vs " + wordB);
-			}
-		}
+     /** Question 2
+     * Given 2 strings, check if one is permutation of the other
+     **/
+     public static boolean checkPermutation(String str1, String str2)
+     {
+          char[] c1 = str1.toCharArray();
+          char[] c2 = str2.toCharArray();
+          Arrays.sort(c1);
+          Arrays.sort(c2);
+
+          return (new String(c1)).equals(new String(c2));
      }
 
-     public static void main(String[] args)
+     /** Question 3
+     * Write a method to replace all spaces in a string with '%20'. You may assume that the string
+     * has sufficient space at the end to hold the additional characters, and that you are given the "true"
+     * length of the string.
+     **/
+     public static void URLify(char[] url, int length)
      {
-          testOne();
+          //only replace spaces until true string length
+          for(int i = 0; i < length; i++)
+          {
+               //if current char is space, replace
+               char c = url[i];
+               if(c == ' ') replace(url, i);
+          }
      }
+
+     private static void replace(char[] url, int index)
+     {
+          //keep track of chars that we are using to replace
+          char temp1 = '2';
+          char temp2 = '0';
+          int i = index + 1;  //start at next character from space
+
+          url[index] = '%';   //replace current space with '%'
+
+          //replace until end of string
+          while(i < url.length - 1)
+          {
+               //keep track of replaced chars
+               char t1 = url[i];
+               char t2 = url[i + 1];
+
+               //replace chars
+               url[i] = temp1;
+               url[i + 1] = temp2;
+
+               //change temps to replaced chars
+               temp1 = t1;
+               temp2 = t2;
+
+               //go to next needed replacement
+               i += 2;
+          }
+
+          //if the string isn't even length, we have temp1 is left over, so replace the last character
+          if(temp1 != ' ') url[i] = temp1;
+     }
+
+     /** Question 4
+     *
+
+     public static void main(String[] args) {
+		String str = "H   ";
+		char[] arr = str.toCharArray();
+		URLify(arr, 2);
+		System.out.println(arr);
+	}
 
 }
