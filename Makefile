@@ -4,8 +4,11 @@ JC = javac
 .java.class:
 	$(JC) $(JFLAGS) $*.java
 
-CLASSES = Chapter1.java
-TO_RUN = Chapter1
+CLASSES = \
+	Chapter2.java
+
+TO_RUN = \
+	Chapter2
 
 default: run
 

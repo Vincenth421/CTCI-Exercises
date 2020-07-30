@@ -131,6 +131,7 @@ public class Chapter1{
           //Go through our counts
           for(int i = 0; i < tracker.length; i++)
           {
+               //case where there is an odd count
                if(tracker[i] % 2 == 1)
                {
                     //if we already saw an odd count or number of letters is even, string is not a palindrome
@@ -270,7 +271,7 @@ public class Chapter1{
      }
 
      /** Question 9
-     * Assumeyou have a method isSubstringwhich checks if one word is a substring
+     * Assume you have a method isSubstring which checks if one word is a substring
      * of another. Given two strings, s1 and s2, write code to check if s2 is a rotation of s1 using only one
      * call to isSubstring (e.g., "waterbottle" is a rotation of"erbottlewat").
      **/
@@ -291,7 +292,7 @@ public class Chapter1{
 	    	    String s1s1 = s1 + s1;
 	    	    return isSubstring(s1s1, s2);
 	    }
-         
+
 	    return false;
 	}
 
