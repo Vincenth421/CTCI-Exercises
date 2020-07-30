@@ -192,4 +192,128 @@ public class Chapter1{
           return true;
      }
 
+     /** Question 6
+     * Implement a method to perform basic string compression using the counts
+     * of repeated characters. For example, the string aabcccccaaa would become a2blc5a3. If the
+     * "compressed" string would not become smaller than the original string, your method should return
+     * the original string. You can assume the string has only uppercase and lowercase letters (a - z).
+     **/
+     public static String compress(String str)
+     {
+          HashMap<Character, Integer> map = new HashMap<>();
+          StringBuilder s1 = new StringBuilder();
+
+          for(int i = 0; i < str.length(); i++)
+          {
+               char c = str.charAt(i);
+               if(map.containsKey(c)) map.put(c, map.get(c) + 1);
+               else map.put(c, 1);
+          }
+
+          for(Character c : map.keySet())
+          {
+               String temp = c + "" + map.get(c);
+               s1.append(temp);
+          }
+
+          if(s1.toString().length() >= str.length()) return str;
+          else return s1.toString();
+     }
+
+     /** Question 7
+     * Given an image represented by an NxN matrix, where each pixel in the image is 4
+     * bytes, write a method to rotate the image by 90 degrees. Can you do this in place?
+     **/
+     public static void rotateMatrix(int[][] matrix)
+     {
+          int n = matrix.length;
+
+          for(int i = 0; i < n / 2; i++)
+          {
+               for(int j = i; j < n - i - 1; j++)
+               {
+
+                    int temp = matrix[i][j];
+
+                    matrix[i][j] = matrix[n - j - 1][i];
+                    matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
+                    matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
+                    matrix[j][n - i - 1] = temp;
+               }
+          }
+     }
+
+     /** Question 8
+     * Write an algorithm such that if an element in an MxN matrix is 0, its entire row and
+     * column are set to 0.
+     **/
+     public static void zeros(int[][] matrix)
+     {
+          for(int i = 0; i < matrix.length; i++)
+          {
+               for(int j = 0; j < matrix[i].length; j++)
+               {
+                    if(matrix[i][j] == 0)
+                    {
+                         for(int k = 0; k < matrix.length; k++)
+                         {
+                              matrix[k][j] = 0;
+                         }
+
+                         for(int l = 0; l < matrix[i].length; l++)
+                         {
+                              matrix[i][l] = 0;
+                         }
+                    }
+               }
+          }
+     }
+
+     /** Question 9
+     * Assumeyou have a method isSubstringwhich checks if one word is a substring
+     * of another. Given two strings, s1 and s2, write code to check if s2 is a rotation of s1 using only one
+     * call to isSubstring (e.g., "waterbottle" is a rotation of"erbottlewat").
+     **/
+     private static boolean isSubstring(String big, String small) {
+		if (big.indexOf(small) >= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean isRotation(String s1, String s2) {
+	    int len = s1.length();
+
+	    /* check that s1 and s2 are equal length and not empty */
+	    if (len == s2.length() && len > 0) {
+              /* concatenate s1 and s1 within new buffer */
+	    	    String s1s1 = s1 + s1;
+	    	    return isSubstring(s1s1, s2);
+	    }
+         
+	    return false;
+	}
+
+     private static void printMatrix(int[][] matrix)
+     {
+          for(int i = 0; i < matrix.length; i++)
+          {
+               for(int j = 0; j < matrix[i].length; j++)
+               {
+                    System.out.print(matrix[i][j] + " ");
+               }
+               System.out.println();
+          }
+     }
+
+     public static void main(String[] args)
+     {
+          int[][] matrix = {{1, 2, 3, 4}, {5, 6, 0, 7}, {8, 9, 10, 0}, {6, 7, 4, 3}, {6, 6, 6, 0}};
+          printMatrix(matrix);
+          zeros(matrix);
+          System.out.println();
+          printMatrix(matrix);
+
+     }
 }
