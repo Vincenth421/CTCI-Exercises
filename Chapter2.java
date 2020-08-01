@@ -127,38 +127,53 @@ public class Chapter2
      **/
      public ListNode partition(ListNode head, int x)
      {
-        ListNode h = new ListNode(0, head);
-        ListNode p1 = head;
-        ListNode p2 = head;
-        ListNode prev1 = h;
-        ListNode prev2 = h;
+          //use dummy node and 2 tracking pointers, both with a previous tracker.
+          ListNode h = new ListNode(0, head);
+          ListNode p1 = head;
+          ListNode p2 = head;
+          ListNode prev1 = h;
+          ListNode prev2 = h;
 
-        while(p1 != null)
-        {
-            if(p1.val >= x)
-            {
-                p2 = p1.next;
-                prev2 = p1;
-                while(p2 != null && p2.val >= x)
-                {
-                    prev2 = p2;
-                    p2 = p2.next;
-                }
+          //go through whole list
+          while(p1 != null)
+          {
+               //if we find a value greater than the partition value, do some pointer manipulation
+               if(p1.val >= x)
+               {
+                    //start scanning from next node over and set the prev of the scanner
+                    p2 = p1.next;
+                    prev2 = p1;
 
-                if(p2 == null) return h.next;
+                    //iterate scanner until end of list or we find a value less than the partition value
+                    while(p2 != null && p2.val >= x)
+                    {
+                         prev2 = p2;
+                         p2 = p2.next;
+                    }
 
-                prev1.next = p2;
-                prev2.next = p2.next;
-                p2.next = p1;
-                p1 = prev1.next;
-            }
+                    //if we reached the end of the list, return the head
+                    if(p2 == null) return h.next;
 
-            prev1 = p1;
-            p1 = p1.next;
-        }
+                    //set the previous node of the position tracker's next node to the new node we found.
+                    prev1.next = p2;
 
-        return h.next;
-    }
+                    //set the previous node of the new found node's next node to the found node's next. This "deletes" the new found node which we already put in the correct location.
+                    prev2.next = p2.next;
+
+                    //Now we set the new found node's next node to the current position tracker. Now our list looks like this: prev1 -> p2 -> p1 -> rest of the list, with p2 in the correct spot.
+                    p2.next = p1;
+
+                    //reset p1 to the correct spot
+                    p1 = prev1.next;
+               }
+
+               //advance p1 and its prev pointer
+               prev1 = p1;
+               p1 = p1.next;
+          }
+
+          return h.next;
+     }
 
      public static void main(String[] args)
      {
