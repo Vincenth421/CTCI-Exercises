@@ -25,8 +25,8 @@ public class Chapter1{
      //No data structure
      public static boolean isUniqueNoDS(String str)
      {
-	  // Only 26 characters
-          if (str.length() > 26) { 
+          // Only 26 characters
+          if (str.length() > 26) {
 			return false;
 		}
 
@@ -34,10 +34,10 @@ public class Chapter1{
 		for (int i = 0; i < str.length(); i++) {
 			int val = str.charAt(i) - 'a';
 
-               		//shift 1 left according to ascii of current char - 'a'. If there is already a 1 there, character is not unique.
+               //shift 1 left according to ascii of current char - 'a'. If there is already a 1 there, character is not unique.
 			if ((checker & (1 << val)) > 0) return false;
 
-               		//otherwise add a 1 to the checker at current char - 'a'
+               //otherwise add a 1 to the checker at current char - 'a'
 			checker |= (1 << val);
 		}
 		return true;
@@ -202,9 +202,11 @@ public class Chapter1{
      **/
      public static String compress(String str)
      {
+          //data structures to keep track
           HashMap<Character, Integer> map = new HashMap<>();
           StringBuilder s1 = new StringBuilder();
 
+          //for each character in str, count the character frequency
           for(int i = 0; i < str.length(); i++)
           {
                char c = str.charAt(i);
@@ -212,12 +214,14 @@ public class Chapter1{
                else map.put(c, 1);
           }
 
+          //for each character in the map, add the character and count to get a string.
           for(Character c : map.keySet())
           {
                String temp = c + "" + map.get(c);
                s1.append(temp);
           }
 
+          //if the final string is longer or equal to the length of the original, return original.
           if(s1.toString().length() >= str.length()) return str;
           else return s1.toString();
      }
@@ -237,6 +241,7 @@ public class Chapter1{
 
                     int temp = matrix[i][j];
 
+                    //math
                     matrix[i][j] = matrix[n - j - 1][i];
                     matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
                     matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
@@ -249,27 +254,50 @@ public class Chapter1{
      * Write an algorithm such that if an element in an MxN matrix is 0, its entire row and
      * column are set to 0.
      **/
-     public static void zeros(int[][] matrix)
-     {
-          for(int i = 0; i < matrix.length; i++)
-          {
-               for(int j = 0; j < matrix[i].length; j++)
-               {
-                    if(matrix[i][j] == 0)
-                    {
-                         for(int k = 0; k < matrix.length; k++)
-                         {
-                              matrix[k][j] = 0;
-                         }
+     public void setZeroes(int[][] matrix) {
+        if(matrix.length == 0) return;
 
-                         for(int l = 0; l < matrix[i].length; l++)
-                         {
-                              matrix[i][l] = 0;
-                         }
-                    }
-               }
-          }
-     }
+        //arrays to track which rows and cols need to be zeroed
+        int rows[] = new int[matrix.length];
+        int cols[] = new int[matrix[0].length];
+
+        //Go through matrix to find zeroes
+        for(int i = 0; i < matrix.length; i++)
+        {
+            for(int j = 0; j < matrix[i].length; j++)
+            {
+                if(matrix[i][j] == 0)
+                {
+                    rows[i] = 1;
+                    cols[j] = 1;
+                }
+            }
+        }
+
+        //for each row that needs zeroing, zero it
+        for(int i = 0; i < rows.length; i++)
+        {
+            if(rows[i] == 1)
+            {
+                for(int j = 0; j < matrix[i].length; j++)
+                {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        //for each column that needs zeroing, zero it
+        for(int i = 0; i < cols.length; i++)
+        {
+            if(cols[i] == 1)
+            {
+                for(int j = 0; j < matrix.length; j++)
+                {
+                    matrix[j][i] = 0;
+                }
+            }
+        }
+    }
 
      /** Question 9
      * Assume you have a method isSubstring which checks if one word is a substring
