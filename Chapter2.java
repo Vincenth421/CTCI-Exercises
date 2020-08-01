@@ -125,7 +125,8 @@ public class Chapter2
      * to be after the elements less than x (see below). The partition element x can appear anywhere in the
      * "right partition"; it does not need to appear between the left and right partitions.
      **/
-     public ListNode partition(ListNode head, int x) {
+     public ListNode partition(ListNode head, int x)
+     {
         ListNode h = new ListNode(0, head);
         ListNode p1 = head;
         ListNode p2 = head;
