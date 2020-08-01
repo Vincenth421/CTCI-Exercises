@@ -100,8 +100,9 @@ public class Chapter2
      * the first and last node, not necessarily the exact middle) of a singly linked list, given only access to
      * that node.
      **/
-     public static Node removeNode(Node node)
+     public static void removeNode(Node node)
      {
+          //set node equal to the values of its next node
           node.val = node.next.val;
           node.next = node.next.next;
      }
@@ -117,6 +118,46 @@ public class Chapter2
 
           System.out.println();
      }
+
+     /** Question 4
+     * Write code to partition a linked list around a value x, such that all nodes less than x come
+     * before all nodes greater than or equal to x. If x is contained within the list, the values of x only need
+     * to be after the elements less than x (see below). The partition element x can appear anywhere in the
+     * "right partition"; it does not need to appear between the left and right partitions.
+     **/
+     public ListNode partition(ListNode head, int x) {
+        ListNode h = new ListNode(0, head);
+        ListNode p1 = head;
+        ListNode p2 = head;
+        ListNode prev1 = h;
+        ListNode prev2 = h;
+
+        while(p1 != null)
+        {
+            if(p1.val >= x)
+            {
+                p2 = p1.next;
+                prev2 = p1;
+                while(p2 != null && p2.val >= x)
+                {
+                    prev2 = p2;
+                    p2 = p2.next;
+                }
+
+                if(p2 == null) return h.next;
+
+                prev1.next = p2;
+                prev2.next = p2.next;
+                p2.next = p1;
+                p1 = prev1.next;
+            }
+
+            prev1 = p1;
+            p1 = p1.next;
+        }
+
+        return h.next;
+    }
 
      public static void main(String[] args)
      {
