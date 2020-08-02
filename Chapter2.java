@@ -172,21 +172,31 @@ public class Chapter2
      **/
      public static Node sumLists(Node head1, Node head2)
      {
+          //get the sum of first node and get the ones and tens digits
           int sum = head1.val + head2.val;
-          Node head = new Node(sum % 10);
-          int carryOver = sum / 10;
+          Node head = new Node(sum % 10);    //make new node with ones place
+          int carryOver = sum / 10;     //store the carry over
           Node p = head;
 
+          //Iterate until we hit the end of one list
           while(head1.next != null && head2.next != null)
           {
+               //get the next node
                head1 = head1.next;
                head2 = head2.next;
+
+               //calculate the sum of the nodes with the carry over
                sum = head1.val + head2.val + carryOver;
+
+               //make new node with ones place
                p.next = new Node(sum % 10);
                p = p.next;
+
+               //calculate new carry over
                carryOver = sum / 10;
           }
 
+          //iterate through rest of first list with same procedure
           while(head1.next != null)
           {
                head1 = head1.next;
@@ -196,6 +206,7 @@ public class Chapter2
                carryOver = sum / 10;
           }
 
+          //iterate through rest of second list with same procedure
           while(head2.next != null)
           {
                head2 = head2.next;
@@ -205,6 +216,7 @@ public class Chapter2
                carryOver = sum / 10;
           }
 
+          //if we still have a carry over, make a new node of carry over
           if(carryOver > 0) p.next = new Node(carryOver);
 
           return head;
@@ -284,11 +296,17 @@ public class Chapter2
      **/
      public Node loop(Node head)
      {
+          //use set to track nodes seen
           Set<Node> nodesSeen = new HashSet<>();
+
+          //go until head isn't null
           while (head != null) {
+
+               //if we see a repeated node, we have loop
                if (nodesSeen.contains(head)) {
                     return head;
                } else {
+                    //otherwise add the node to the set
                     nodesSeen.add(head);
                }
                head = head.next;
