@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Chapter2
 {
      private static class Node{
@@ -107,32 +109,20 @@ public class Chapter2
           node.next = node.next.next;
      }
 
-     private static void printList(Node head){
-          Node p = head;
-
-          while(p != null)
-          {
-               System.out.print(p.val + " ");
-               p = p.next;
-          }
-
-          System.out.println();
-     }
-
      /** Question 4
      * Write code to partition a linked list around a value x, such that all nodes less than x come
      * before all nodes greater than or equal to x. If x is contained within the list, the values of x only need
      * to be after the elements less than x (see below). The partition element x can appear anywhere in the
      * "right partition"; it does not need to appear between the left and right partitions.
      **/
-     public ListNode partition(ListNode head, int x)
+     public Node partition(Node head, int x)
      {
           //use dummy node and 2 tracking pointers, both with a previous tracker.
-          ListNode h = new ListNode(0, head);
-          ListNode p1 = head;
-          ListNode p2 = head;
-          ListNode prev1 = h;
-          ListNode prev2 = h;
+          Node h = new Node(0, head);
+          Node p1 = head;
+          Node p2 = head;
+          Node prev1 = h;
+          Node prev2 = h;
 
           //go through whole list
           while(p1 != null)
@@ -173,6 +163,149 @@ public class Chapter2
           }
 
           return h.next;
+     }
+
+     /** Question 5
+     * You have two numbers represented by a linked list, where each node contains a single
+     * digit. The digits are stored in reverse order, such that the 1 's digit is at the head of the list. Write a
+     * function that adds the two numbers and returns the sum as a linked list.
+     **/
+     public static Node sumLists(Node head1, Node head2)
+     {
+          int sum = head1.val + head2.val;
+          Node head = new Node(sum % 10);
+          int carryOver = sum / 10;
+          Node p = head;
+
+          while(head1.next != null && head2.next != null)
+          {
+               head1 = head1.next;
+               head2 = head2.next;
+               sum = head1.val + head2.val + carryOver;
+               p.next = new Node(sum % 10);
+               p = p.next;
+               carryOver = sum / 10;
+          }
+
+          while(head1.next != null)
+          {
+               head1 = head1.next;
+               sum = head1.val + carryOver;
+               p.next = new Node(sum % 10);
+               p = p.next;
+               carryOver = sum / 10;
+          }
+
+          while(head2.next != null)
+          {
+               head2 = head2.next;
+               sum = head2.val + carryOver;
+               p.next = new Node(sum % 10);
+               p = p.next;
+               carryOver = sum / 10;
+          }
+
+          if(carryOver > 0) p.next = new Node(carryOver);
+
+          return head;
+
+     }
+
+     /**Question 6
+     * Implement a function to check if a linked list is a palindrome.
+     **/
+     public boolean isPalindrome(Node head) {
+          Node fast = head, slow = head;
+
+          //iterate fast to end of list so that slow is in the middle
+          while (fast != null && fast.next != null) {
+               fast = fast.next.next;
+               slow = slow.next;
+          }
+
+          //odd sized lists, right half smaller
+          if (fast != null) {
+               slow = slow.next;
+          }
+
+          //reverse second half of the list
+          slow = reverse(slow);
+          fast = head;
+
+          //check for equality from both sides of the list.
+          while (slow != null) {
+               if (fast.val != slow.val) {
+                    return false;
+               }
+               fast = fast.next;
+               slow = slow.next;
+          }
+
+          return true;
+     }
+
+     public Node reverse(Node head) {
+          Node prev = null;
+          while (head != null) {
+               Node next = head.next;
+               head.next = prev;
+               prev = head;
+               head = next;
+          }
+          return prev;
+     }
+
+     /** Question 7
+     * Given two (singly) linked lists, determine if the two lists intersect. Return the intersecting
+     * node. Note that the intersection is defined based on reference, not value. That is, if the kth
+     * node of the first linked list is the exact same node (by reference) as the jth node of the second
+     * linked list, then they are intersecting.
+     **/
+     public Node getIntersectionNode(Node headA, Node headB) {
+          //boundary check
+          if(headA == null || headB == null) return null;
+
+          Node a = headA;
+          Node b = headB;
+
+          //if a & b have different len, then we will stop the loop after second iteration
+          while( a != b){
+               //for the end of first iteration, we just reset the pointer to the head of another linkedlist
+               a = a == null? headB : a.next;
+               b = b == null? headA : b.next;
+          }
+
+          return a;
+     }
+
+     /** Question 8
+     * Given a circular linked list, implement an algorithm that returns the node at the
+     * beginning of the loop.
+     **/
+     public Node loop(Node head)
+     {
+          Set<Node> nodesSeen = new HashSet<>();
+          while (head != null) {
+               if (nodesSeen.contains(head)) {
+                    return head;
+               } else {
+                    nodesSeen.add(head);
+               }
+               head = head.next;
+          }
+          return null;
+     }
+
+     private static void printList(Node head){
+          Node p = head;
+
+          while(p != null)
+          {
+               System.out.print(p.val + " ");
+               p = p.next;
+          }
+
+          System.out.println();
      }
 
      public static void main(String[] args)
