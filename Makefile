@@ -5,10 +5,10 @@ JC = javac
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
-	Chapter2.java
+	Chapter3.java
 
 TO_RUN = \
-	Chapter2
+	Chapter3
 
 default: run
 
